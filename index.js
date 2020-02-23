@@ -1,4 +1,5 @@
 var arr = [];  //create empty array
+var running = false;
 for(var i = 0; i< 300; i+=3){ //initialize the array
     arr.push(i + 25);
 }
@@ -6,9 +7,6 @@ function draw(n, color) {
     if (canvas.getContext) {
       var ctx = canvas.getContext('2d');
       var width = (970.0 - n.length)/n.length;
-      if(width < .97){
-          width = .97;
-      }
       var currX = 10;
       ctx.clearRect(0, 0, canvas.width, canvas.height);	
       for(var i = 0; i < n.length; i++){
@@ -19,11 +17,8 @@ function draw(n, color) {
           }
           var h = n[i];
           ctx.fillRect(currX, canvas.height - h, width, h);
-          if(width >= 1){
-            currX += width + 1;
-            }else{
-                currX += width;
-            }
+          currX += width + 1;
+          
 
       }
     }
@@ -141,6 +136,7 @@ function* shakerSort(array){
 }
 
 function* mergeSort(arr){
+    running = true;
     var a = 1;
     while(a < arr.length){
         var pos2 = a;
@@ -188,6 +184,10 @@ function* mergeSort(arr){
     }
 }
 
+function* quickSort(arr){
+    
+}
+
 function start(option){
     canvas = document.getElementById('myCanvas');
     if(option == 1){
@@ -202,7 +202,8 @@ function start(option){
     if(option == 4){
         var sort = shakerSort(arr);
     }
-    if(option == 5){
+    if(option == 5 && running == false){
+        running = true;
         var sort = mergeSort(arr);
     }
       function anim(ar){
@@ -210,6 +211,7 @@ function start(option){
         sort.next(); 
       }
       setTimeout(anim(arr), 7000);
+      running = false;
 }
 
 
