@@ -20,6 +20,58 @@ function draw(n, color) {
       }
     }
 }
+function* insertionSort(arr){
+    var swapped;
+    var step = 0;
+    var pass = 1;
+    if(arr.length > 1){
+        var spot;
+        var temp;
+        for(var i = 1; i < arr.length; i++){
+            swapped = false;
+            spot = i;
+            for(var n = i - 1; n >= 0; n--){
+                if(arr[i] <= arr[n]){
+                    spot = n;
+                    swapped = true;
+                }
+            }
+            temp = arr[i];
+            for(var n = i - 1; n >= spot; n--){
+                arr[n+1] = arr[n];
+                step++;
+                draw(arr, n+1);
+                yield swapped;
+            }
+            arr[spot] = temp;
+            draw(arr, spot);
+            yield swapped;
+            pass++
+        }
+    }
+}
+/*
+void insertionSort (int *array, size_t count) {
+    if(count <= 1)
+        return;    int spot;
+    int temp;
+    for(int i = 1; i < count; i++){
+        spot = i;
+        for(int n = i-1; n>=0; n--){
+            if(*(array+i)<=*(array+n)){
+                spot = n;
+            }
+        }
+        temp = *(array + i);
+        for(int n = i-1; n >= spot; n--){
+            *(array + n + 1) = *(array + n);
+        }
+        *(array + spot)=temp;
+        
+    }
+}
+*/
+
 
 function* selectionSort(array){
     var min = 0;
@@ -70,6 +122,9 @@ function* bubbleSort(array) {
 
 function start(option){
     canvas = document.getElementById('myCanvas');
+    if(option == 1){
+        var sort = insertionSort(arr);
+    }
     if(option == 2){
         var sort = bubbleSort(arr);
     }
@@ -114,4 +169,5 @@ window.onload = function(){
 }
 document.getElementById("bubble").onclick = function() {start(2);};
 document.getElementById("select").onclick = function() {start(3);};
+document.getElementById("insert").onclick = function() {start(1);};
 document.getElementById("ref").onclick = function() {ref();};
