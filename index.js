@@ -62,9 +62,8 @@ function* selectionSort(array){
     for(var i = 0; i < array.length; i++){
         min = i;
         for(var n = i; n < array.length; n++){
+            draw(array, n); 
             if(array[n] < array[min]){
-                draw(array, n);
-                yield true;
                 min = n;
                 step++;
             }
