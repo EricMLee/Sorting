@@ -57,25 +57,25 @@ function* insertionSort(arr){
 function* selectionSort(array){
     var min = 0;
     var temp = 0;
-    var swapped;
     var step = 0;
     var pass = 1;
     for(var i = 0; i < array.length; i++){
         min = i;
-        swapped = false;
         for(var n = i; n < array.length; n++){
-            draw(array, n);
             if(array[n] < array[min]){
+                draw(array, n);
+                yield true;
                 min = n;
-                swapped = true;
                 step++;
             }
         }
         temp = array[i];
         array[i] = array[min];
-        array[min] = temp;
         draw(array, i);
-        yield swapped;
+        yield true;
+        array[min] = temp;
+        draw(array, min);
+        yield true;
         pass++
     }
 }
