@@ -5,7 +5,10 @@ for(var i = 0; i< 300; i+=3){ //initialize the array
 function draw(n, color) {
     if (canvas.getContext) {
       var ctx = canvas.getContext('2d');
-      var width = (920.0 - n.length)/n.length;
+      var width = (970.0 - n.length)/n.length;
+      if(width < .97){
+          width = .97;
+      }
       var currX = 10;
       ctx.clearRect(0, 0, canvas.width, canvas.height);	
       for(var i = 0; i < n.length; i++){
@@ -16,7 +19,12 @@ function draw(n, color) {
           }
           var h = n[i];
           ctx.fillRect(currX, canvas.height - h, width, h);
-          currX += width + 1;
+          if(width >= 1){
+            currX += width + 1;
+            }else{
+                currX += width;
+            }
+
       }
     }
 }
@@ -50,28 +58,6 @@ function* insertionSort(arr){
         }
     }
 }
-/*
-void insertionSort (int *array, size_t count) {
-    if(count <= 1)
-        return;    int spot;
-    int temp;
-    for(int i = 1; i < count; i++){
-        spot = i;
-        for(int n = i-1; n>=0; n--){
-            if(*(array+i)<=*(array+n)){
-                spot = n;
-            }
-        }
-        temp = *(array + i);
-        for(int n = i-1; n >= spot; n--){
-            *(array + n + 1) = *(array + n);
-        }
-        *(array + spot)=temp;
-        
-    }
-}
-*/
-
 
 function* selectionSort(array){
     var min = 0;
@@ -83,6 +69,7 @@ function* selectionSort(array){
         min = i;
         swapped = false;
         for(var n = i; n < array.length; n++){
+            draw(array, n);
             if(array[n] < array[min]){
                 min = n;
                 swapped = true;
@@ -114,10 +101,91 @@ function* bubbleSort(array) {
                 draw(array, i);
                 yield swapped; // pause here
             }
+            }
+            pass++
+    } while (swapped);
+}
+
+function* shakerSort(array){
+    var swapped;
+    var step = 0;
+    var pass = 1;
+    var p = 0;
+    do{
+        swapped = false;
+        for (var i = 0; i < array.length - 1 - p; i++) {
+            if (array[i] > array[i + 1]) {
+                var temp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = temp;
+                swapped = true;
+                step++;
+                draw(array, i);
+                yield swapped; // pause here
+            }
         }
+        for (var i = array.length - 1 - p; i > p; i--) {
+            if (array[i] < array[i - 1]) {
+                var temp = array[i];
+                array[i] = array[i - 1];
+                array[i - 1] = temp;
+                swapped = true;
+                step++;
+                draw(array, i);
+                yield swapped; // pause here
+            }
+        }
+        p++;
         pass++
     } while (swapped);
+}
 
+function* mergeSort(arr){
+    var a = 1;
+    while(a < arr.length){
+        var pos2 = a;
+        var pos1 = 0;
+        while(pos2 < arr.length){
+            var arr1 = [];
+            var arr2 = [];
+            for(var i = 0; i < a; i++){
+                arr1[i] = arr[pos1 + i];
+                if(pos2 + i < arr.length){
+                    arr2[i] = arr[pos2 + i];
+                }
+            }
+            var x = 0;
+            var y = 0;
+            while(x != arr1.length && y != arr2.length){
+                if(arr1[x] < arr2[y]){
+                    arr[pos1 + x + y] = arr1[x];
+                    draw(arr, pos1 + x + y);
+                    yield true;
+                    x++;
+                }else{
+                    arr[pos1 + x + y] = arr2[y];
+                    draw(arr, pos1 + x + y);
+                    yield true;
+                    y++;
+                }
+            }
+            while(x!= arr1.length){
+                arr[pos1 + x + y] = arr1[x];
+                draw(arr, pos1 + x + y);
+                yield true;
+                x++;
+            }
+            while(y!= arr2.length){
+                arr[pos1 + x + y] = arr2[y];
+                draw(arr, pos1 + x + y);
+                yield true;
+                y++;
+            }
+            pos1 += a*2;
+            pos2 += a*2;
+        }
+        a = a * 2;
+    }
 }
 
 function start(option){
@@ -130,6 +198,12 @@ function start(option){
     }
     if(option == 3){
         var sort = selectionSort(arr);
+    }
+    if(option == 4){
+        var sort = shakerSort(arr);
+    }
+    if(option == 5){
+        var sort = mergeSort(arr);
     }
       function anim(ar){
         requestAnimationFrame(anim);
@@ -170,4 +244,6 @@ window.onload = function(){
 document.getElementById("bubble").onclick = function() {start(2);};
 document.getElementById("select").onclick = function() {start(3);};
 document.getElementById("insert").onclick = function() {start(1);};
+document.getElementById("merge").onclick = function() {start(5);};
+document.getElementById("shake").onclick = function() {start(4);};
 document.getElementById("ref").onclick = function() {ref();};
