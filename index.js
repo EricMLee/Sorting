@@ -41,7 +41,6 @@ function* insertionSort(arr){
                 arr[n+1] = arr[n];
                 step++;
                 draw(arr, n+1);
-                yield swapped;
             }
             arr[spot] = temp;
             draw(arr, spot);
