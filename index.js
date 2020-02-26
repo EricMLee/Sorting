@@ -217,6 +217,9 @@ function ref(){
         if(userIn <= -1){
             userIn = 100;
         }
+        if(userIn >= 512){
+            userIn = 512;
+        }
     }
     var x = 400/userIn;
     for(var i = 0; i< userIn; i++){ 
