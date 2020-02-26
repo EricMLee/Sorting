@@ -18,8 +18,6 @@ function draw(n, color) {
           var h = n[i];
           ctx.fillRect(currX, canvas.height - h, width, h);
           currX += width + 1;
-          
-
       }
     }
 }
@@ -64,6 +62,7 @@ function* selectionSort(array){
         for(var n = i; n < array.length; n++){
             draw(array, n); 
             if(array[n] < array[min]){
+                yield true;
                 min = n;
                 step++;
             }
@@ -93,7 +92,7 @@ function* bubbleSort(array) {
                 swapped = true;
                 step++;
                 draw(array, i);
-                yield swapped; // pause here
+                yield true;
             }
             }
             pass++
@@ -182,11 +181,6 @@ function* mergeSort(arr){
         a = a * 2;
     }
 }
-
-function* quickSort(arr){
-    
-}
-
 function start(option){
     canvas = document.getElementById('myCanvas');
     if(option == 1){
@@ -217,6 +211,9 @@ function start(option){
 function ref(){ 
     var userIn = document.getElementById("text1").value;
     arr = [];
+    if(userIn = -1){
+        userIn = 100;
+    }
     var x = 400/userIn;
     for(var i = 0; i< userIn; i++){ 
         arr.push(x);
@@ -238,7 +235,7 @@ function shuffle(array) {
       return array;
     }
 
-window.onload = function(){
+    window.onload = function(){
     canvas = document.getElementById('myCanvas');
     draw(arr, 0);
 }
