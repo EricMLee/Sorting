@@ -211,8 +211,12 @@ function start(option){
 function ref(){ 
     var userIn = document.getElementById("text1").value;
     arr = [];
-    if(userIn = -1){
+    if(userIn == false){
         userIn = 100;
+    }else{
+        if(userIn <= -1){
+            userIn = 100;
+        }
     }
     var x = 400/userIn;
     for(var i = 0; i< userIn; i++){ 
