@@ -11,9 +11,9 @@ function draw(n, color) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);	
       for(var i = 0; i < n.length; i++){
           if(i == color){
-              ctx.fillStyle = 'red';
+              ctx.fillStyle = 'rgb(220, 20, 20)';
           }else{
-              ctx.fillStyle = 'blue';
+              ctx.fillStyle = 'rgb(0, 0, 170)';
           }
           var h = n[i];
           ctx.fillRect(currX, canvas.height - h, width, h);
